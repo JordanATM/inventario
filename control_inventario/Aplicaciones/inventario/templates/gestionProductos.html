@@ -1,0 +1,74 @@
+{% extends "./base.html"%}
+
+{%block tittle%}
+Gestión de inventario
+{%endblock%}
+
+{% block body%}
+    <h1 class="text-center py-2">Listado de productos</h1>
+    <form method="post" action="{% url 'buscar_producto' %}">
+        {% csrf_token %}
+        <input type="text" name="search_box" placeholder="Buscar producto">
+        <button class="btn btn-warning" type="submit">Buscar</button>
+    </form>
+    <div class="row py-5">
+        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+            <!-- {% if messages %}
+                {%for message in messages%}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert">
+                            &times;
+                        </button>
+                        <strong class="text-dark">{{message}}</strong>
+                    </div>
+                {%endfor%}
+            {% endif %} -->
+            <h2>Ingresar producto</h2>
+            <div class="card">
+                <div class="card-body">
+                    <form action="/registrarProducto/" method="POST"> {% csrf_token%}
+                        <div class="form-group">
+                            <input type="text" id="txtNombre" name="txtNombre" class="form-control" placeholder="Nombre" minlength="1" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" id="txtCodigo" name="txtCodigo" class="form-control" placeholder="Código" minlength="1" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" id="txtCantidad" name="txtCantidad" class="form-control" placeholder="Cantidad" minlength="1" required>
+                        </div>
+                        <div class="form-group py-2">
+                            <button class="btn btn-success btn-block" type="submit">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nombre</th>
+                            <th>Código</th>
+                            <th>Cantidad</th>
+                            <th colspan="2">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for p in productos%}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{p.nombre}}</td>
+                            <td>{{p.codigo}}</td>
+                            <td>{{p.cantidad}}</td>
+                            <td><a href="edicionProducto/{{p.codigo}}" class="btn btn-info">Editar</a></td>
+                            <td><a href="eliminarProducto/{{p.codigo}}" class="btn btn-danger btnEliminacion">Eliminar</a></td>
+                        </tr>
+                        {%endfor%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
